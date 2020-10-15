@@ -7,7 +7,7 @@ import com.dodopa.thingsflowproject.model.entity.Issue
 import com.dodopa.thingsflowproject.model.repository.GitApiRepository
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-class GitApiViewModel : ViewModel() {
+open class GitApiViewModel : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
@@ -26,11 +26,13 @@ class GitApiViewModel : ViewModel() {
     fun getIssueListFromRepo(
         org: String,
         repo: String,
+        page: Int,
+        pagingSize: Int,
         succeedCallback: ((isEmpty: Boolean) -> Unit)? = null,
         errorCallback: (() -> Unit)? = null
     ) {
         disposables.add(
-            GitApiRepository.getIssueListFromRepo(org, repo)
+            GitApiRepository.getIssueListFromRepo(org, repo, page, pagingSize)
                 .subscribe({
                     _fetchedIssueList.value = it
                     succeedCallback?.invoke(it.isEmpty())

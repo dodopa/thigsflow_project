@@ -8,9 +8,9 @@ class GitApi {
     companion object {
         private const val baseUrl = "https://api.github.com"
 
-        fun getIssueListFromRepo(org: String, repo: String) =
+        fun getIssueListFromRepo(org: String, repo: String, page: Int, pagingSize: Int) =
             RetrofitCreator.create(baseUrl, GitApiService::class.java)
-                .getIssueListFromRepo(org, repo)
+                .getIssueListFromRepo(org, repo, page, pagingSize)
 
         fun searchIssueByIssueNumber(org: String, repo: String, issueNumber: Int) =
             RetrofitCreator.create(baseUrl, GitApiService::class.java)

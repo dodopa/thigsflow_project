@@ -8,8 +8,13 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 
 object GitApiRepository {
 
-    fun getIssueListFromRepo(org: String, repo: String): Single<List<Issue>> {
-        return GitApi.getIssueListFromRepo(org, repo)
+    fun getIssueListFromRepo(
+        org: String,
+        repo: String,
+        page: Int,
+        pagingSize: Int
+    ): Single<List<Issue>> {
+        return GitApi.getIssueListFromRepo(org, repo, page, pagingSize)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

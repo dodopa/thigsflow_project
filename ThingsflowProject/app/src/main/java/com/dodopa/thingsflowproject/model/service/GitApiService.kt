@@ -10,7 +10,9 @@ interface GitApiService {
     @GET("/repos/{org}/{repo}/issues")
     fun getIssueListFromRepo(
         @Path("org") org: String,
-        @Path("repo") repo: String
+        @Path("repo") repo: String,
+        @Query("page") page: Int,
+        @Query("per_page") pagingSize: Int
     ): Single<List<Issue>>
 
     @GET("/repos/{org}/{repo}/issues/{issueNumber}")

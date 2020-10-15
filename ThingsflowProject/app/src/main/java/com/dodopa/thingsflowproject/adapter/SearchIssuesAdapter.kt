@@ -18,6 +18,12 @@ class SearchIssuesAdapter(
     override fun onBindViewHolder(holder: IssueListItemViewHolder, position: Int) =
         holder.bindTo(position, items[position], onClicked)
 
+    fun setItems(others: List<Issue>) {
+        items.clear()
+        items.addAll(others)
+        notifyDataSetChanged()
+    }
+
     fun addItems(others: List<Issue>) {
         val startPos = items.size
         items.addAll(others)
