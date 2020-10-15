@@ -5,4 +5,6 @@
     <color name="colorAccent">#03DAC5</color>
 
     <color name="repo_input_text">#000000</color>
+
+    <color name="activity_issue_nickname">#000000</color>
 </resources>

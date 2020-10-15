@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dodopa.thingsflowproject.adapter.SearchIssuesAdapter
 import com.dodopa.thingsflowproject.databinding.ActivityMainBinding
+import com.dodopa.thingsflowproject.model.entity.Issue
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,18 +38,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearchUI() {
-        binding.tvBtnRepoInputMain.setOnClickListener {  }
+        binding.tvBtnRepoInputMain.setOnClickListener { }
     }
 
     private fun initRecycler() {
         binding.rvMain.apply {
-            searchIssuesAdapter = SearchIssuesAdapter(onClicked = onClickedItem)
+            searchIssuesAdapter = SearchIssuesAdapter(onClicked = {
+                IssueActivity.startActivitySelf(
+                    this@MainActivity,
+                    ORGANIZATION_NAME,
+                    it.repositoryName,
+                    it.number
+                )
+            })
             adapter = searchIssuesAdapter
         }
-    }
-
-    private val onClickedItem = { pos: Int ->
-
     }
 
     private fun initObserve() {

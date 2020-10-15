@@ -7,7 +7,7 @@ import com.dodopa.thingsflowproject.viewholder.IssueListItemViewHolder
 
 class SearchIssuesAdapter(
     private val items: ArrayList<Issue> = arrayListOf(),
-    private val onClicked: ((pos: Int) -> Unit)? = null
+    private val onClicked: ((issue: Issue) -> Unit)? = null
 ) : RecyclerView.Adapter<IssueListItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IssueListItemViewHolder =

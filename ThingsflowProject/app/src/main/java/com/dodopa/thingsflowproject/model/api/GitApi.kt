@@ -11,5 +11,9 @@ class GitApi {
         fun getIssueListFromRepo(org: String, repo: String) =
             RetrofitCreator.create(baseUrl, GitApiService::class.java)
                 .getIssueListFromRepo(org, repo)
+
+        fun searchIssueByIssueNumber(org: String, repo: String, issueNumber: Int) =
+            RetrofitCreator.create(baseUrl, GitApiService::class.java)
+                .searchIssueByIssueNumber(org, repo, issueNumber)
     }
 }

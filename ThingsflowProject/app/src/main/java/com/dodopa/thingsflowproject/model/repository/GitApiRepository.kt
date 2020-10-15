@@ -13,4 +13,10 @@ object GitApiRepository {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }
+
+    fun searchIssueByIssueNumber(org: String, repo: String, issueNumber: Int): Single<Issue> {
+        return GitApi.searchIssueByIssueNumber(org, repo, issueNumber)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 }

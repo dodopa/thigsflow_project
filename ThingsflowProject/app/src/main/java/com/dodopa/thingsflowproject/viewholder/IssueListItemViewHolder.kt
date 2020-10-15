@@ -15,10 +15,10 @@ class IssueListItemViewHolder(
 
     private val binding = ListItemIssueBinding.bind(view)
 
-    fun bindTo(pos: Int, issue: Issue, onClicked: ((pos: Int) -> Unit)?) {
+    fun bindTo(pos: Int, issue: Issue, onClicked: ((issue: Issue) -> Unit)?) {
         binding.tvListItemIssue.text = "#${issue.number} ${issue.body}"
         binding.clRootListItemIssue.setOnClickListener {
-            onClicked?.invoke(pos)
+            onClicked?.invoke(issue)
         }
     }
 }

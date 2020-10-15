@@ -15,6 +15,9 @@ class GitApiViewModel : ViewModel() {
     val fetchedIssueList: LiveData<List<Issue>>
         get() = _fetchedIssueList
 
+    private var _searchedIssue = MutableLiveData<Issue>()
+    val searchedIssue: LiveData<Issue> get() = _searchedIssue
+
     override fun onCleared() {
         disposables.clear()
         super.onCleared()
@@ -25,6 +28,17 @@ class GitApiViewModel : ViewModel() {
             GitApiRepository.getIssueListFromRepo(org, repo)
                 .subscribe({
                     _fetchedIssueList.value = it
+                }, {
+                    Util.Log.d(it.message)
+                })
+        )
+    }
+
+    fun searchIssueByIssueNumber(org: String, repo: String, issueNumber: Int) {
+        disposables.add(
+            GitApiRepository.searchIssueByIssueNumber(org, repo, issueNumber)
+                .subscribe({
+                    _searchedIssue.value = it
                 }, {
                     Util.Log.d(it.message)
                 })
