@@ -15,7 +15,7 @@ class IssueListItemViewHolder(
 
     private val binding = ListItemIssueBinding.bind(view)
 
-    fun bindTo(pos: Int, issue: Issue, onClicked: ((issue: Issue) -> Unit)?) {
+    fun bindTo(issue: Issue, onClicked: ((issue: Issue) -> Unit)?) {
         binding.tvListItemIssue.text = "#${issue.number} ${issue.title}"
         binding.clRootListItemIssue.setOnClickListener {
             onClicked?.invoke(issue)

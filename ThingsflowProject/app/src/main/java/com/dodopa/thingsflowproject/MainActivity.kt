@@ -8,19 +8,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dodopa.thingsflowproject.adapter.SearchIssuesAdapter
 import com.dodopa.thingsflowproject.databinding.ActivityMainBinding
-import com.dodopa.thingsflowproject.viewholder.IssueListItemViewHolder
+import com.dodopa.thingsflowproject.model.data.IssueListData
+import com.dodopa.thingsflowproject.viewholder.SmartViewHolder
 
 class MainActivity : AppCompatActivity(), SearchDialogFunc, PagingScrollListener.Fetch {
 
     companion object {
         const val ORGANIZATION_NAME = "dodopa"
         const val PAGING_SIZE = 10
+        const val IMAGE_URL =
+            "https://s3.ap-northeast-2.amazonaws.com/hellobot-kr-test/image/main_logo.png"
     }
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var mainViewModel: MainViewModel
     private lateinit var searchIssuesAdapter: SearchIssuesAdapter
-    private lateinit var pagingScrollListener: PagingScrollListener<IssueListItemViewHolder>
+    private lateinit var pagingScrollListener: PagingScrollListener<SmartViewHolder>
 
     override var searchDialog: SearchDialog? = null
 
@@ -57,7 +60,7 @@ class MainActivity : AppCompatActivity(), SearchDialogFunc, PagingScrollListener
 
     private fun initRecycler() {
         binding.rvMain.apply {
-            searchIssuesAdapter = SearchIssuesAdapter(onClicked = {
+            searchIssuesAdapter = SearchIssuesAdapter(onClickedIssue = {
                 IssueActivity.startActivitySelf(
                     this@MainActivity,
                     ORGANIZATION_NAME,
@@ -103,10 +106,25 @@ class MainActivity : AppCompatActivity(), SearchDialogFunc, PagingScrollListener
 
     private fun initObserve() {
         mainViewModel.fetchedIssueList.observe(this, Observer {
+            val res = arrayListOf<IssueListData>()
+
+            it.mapIndexed { index, issue ->
+                // 5번째에 이미지 삽입
+                if (binding.srlMain.isRefreshing && index == 4) {
+                    res.add(
+                        IssueListData(
+                            viewType = SearchIssuesAdapter.ViewType.IMAGE,
+                            imageUrl = IMAGE_URL
+                        )
+                    )
+                }
+                res.add(IssueListData(issue = issue, viewType = SearchIssuesAdapter.ViewType.ISSUE))
+            }
+
             if (binding.srlMain.isRefreshing) {
-                searchIssuesAdapter.setItems(it)
+                searchIssuesAdapter.setItems(res)
             } else {
-                searchIssuesAdapter.addItems(it)
+                searchIssuesAdapter.addItems(res)
             }
 
             binding.srlMain.isRefreshing = false
