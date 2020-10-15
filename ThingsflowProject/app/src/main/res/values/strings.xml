@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ThingsflowProject</string>
+    <string name="text_google_dagger">google / dagger</string>
 </resources>
