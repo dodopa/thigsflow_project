@@ -13,7 +13,7 @@ import com.dodopa.thingsflowproject.viewholder.IssueListItemViewHolder
 class MainActivity : AppCompatActivity(), SearchDialogFunc, PagingScrollListener.Fetch {
 
     companion object {
-        const val ORGANIZATION_NAME = "utilForever"
+        const val ORGANIZATION_NAME = "dodopa"
         const val PAGING_SIZE = 10
     }
 
