@@ -23,13 +23,20 @@ class GitApiViewModel : ViewModel() {
         super.onCleared()
     }
 
-    fun getIssueListFromRepo(org: String, repo: String) {
+    fun getIssueListFromRepo(
+        org: String,
+        repo: String,
+        succeedCallback: ((isEmpty: Boolean) -> Unit)? = null,
+        errorCallback: (() -> Unit)? = null
+    ) {
         disposables.add(
             GitApiRepository.getIssueListFromRepo(org, repo)
                 .subscribe({
                     _fetchedIssueList.value = it
+                    succeedCallback?.invoke(it.isEmpty())
                 }, {
                     Util.Log.d(it.message)
+                    errorCallback?.invoke()
                 })
         )
     }

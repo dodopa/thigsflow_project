@@ -23,4 +23,9 @@ class SearchIssuesAdapter(
         items.addAll(others)
         notifyItemRangeInserted(startPos, others.size)
     }
+
+    fun clear() {
+        notifyItemRangeRemoved(0, items.size)
+        items.clear()
+    }
 }

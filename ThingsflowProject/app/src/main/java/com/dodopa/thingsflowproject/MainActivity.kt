@@ -1,14 +1,16 @@
 package com.dodopa.thingsflowproject
 
+import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.dodopa.thingsflowproject.adapter.SearchIssuesAdapter
 import com.dodopa.thingsflowproject.databinding.ActivityMainBinding
 import com.dodopa.thingsflowproject.model.entity.Issue
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SearchDialogFunc {
 
     companion object {
         const val ORGANIZATION_NAME = "dodopa"
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var gitApiViewModel: GitApiViewModel
     private lateinit var searchIssuesAdapter: SearchIssuesAdapter
+
+    override var searchDialog: SearchDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initSearchUI() {
-        binding.tvBtnRepoInputMain.setOnClickListener { }
+        binding.tvBtnRepoInputMain.setOnClickListener { showSearchDialog() }
     }
 
     private fun initRecycler() {
@@ -60,4 +64,33 @@ class MainActivity : AppCompatActivity() {
             searchIssuesAdapter.addItems(it)
         })
     }
+
+    override fun onClickedOkSearchDialog(text: String) {
+        searchIssuesAdapter.clear()
+        gitApiViewModel.getIssueListFromRepo(ORGANIZATION_NAME, text, succeedCallback = { isEmpty ->
+            if (isEmpty) {
+                showAlertDialog("결과가 없습니다.")
+            }
+            hideSearchDialog()
+        }, errorCallback = {
+            showAlertDialog("조회할 수 없습니다.")
+        })
+    }
+
+    override fun showSearchDialog() {
+        if (searchDialog == null) {
+            searchDialog = SearchDialog(this, this)
+        }
+        searchDialog!!.show()
+    }
+
+    override fun hideSearchDialog() {
+        searchDialog?.hide()
+    }
+
+    private fun showAlertDialog(message: String) = AlertDialog.Builder(this)
+        .setMessage(message)
+        .setPositiveButton("확인") { _, _ -> }
+        .create()
+        .show()
 }
