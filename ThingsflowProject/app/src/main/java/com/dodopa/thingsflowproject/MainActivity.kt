@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity(), SearchDialogFunc, PagingScrollListener
         searchIssuesAdapter.clear()
         mainViewModel.setSearchRepoName(text)
         pagingScrollListener.refresh()
+        binding.srlMain.isRefreshing = true
     }
 
     override fun showSearchDialog() {
